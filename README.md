@@ -41,4 +41,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 - [Crates.io](https://crates.io/crates/getopt)
 - [Documentation](https://docs.rs/getopt/)
 - [Repository](https://nest.pijul.com/dragonmaus/getopt)
-- [Repository mirror](https://hub.darcs.net/dragonmaus/getopt.rs)
+- [Repository mirror (Darcs Hub)](https://hub.darcs.net/dragonmaus/getopt.rs)
+- [Repository mirror (GitLab)](https://gitlab.com/dragonmaus/getopt.rs)
+- [Repository mirror (GitHub)](https://github.com/dragonmaus/getopt.rs)
