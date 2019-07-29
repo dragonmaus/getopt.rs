@@ -1,0 +1,6 @@
+\.rs\.bk$
+^Cargo\.lock$
+^\.git($|/)
+^\.pijul($|/)
+^_darcs($|/)
+^target($|/)

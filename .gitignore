@@ -1,0 +1,6 @@
+*.rs.bk
+/.git/
+/.pijul/
+/Cargo.lock
+/_darcs/
+/target/
