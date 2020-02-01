@@ -1,12 +1,11 @@
 [package]
 edition = "2018"
 name = "getopt"
-version = "0.4.2"
+version = "0.4.3"
 authors = ["David Wildasin <dragonmaus@posteo.net>"]
-exclude = ["_darcs/*"]
 publish = true
 description = "A minimal, (essentially) POSIX-compliant option parser"
 readme = "README.md"
 categories = ["command-line-interface", "command-line-utilities"]
 license = "BSD-3-Clause-Clear"
-repository = "https://nest.pijul.com/dragonmaus/getopt"
+repository = "https://git.dragonma.us/dragonmaus/getopt.rs"

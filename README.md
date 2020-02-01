@@ -40,7 +40,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 ## Links:
 - [Crates.io](https://crates.io/crates/getopt)
 - [Documentation](https://docs.rs/getopt/)
-- [Repository](https://nest.pijul.com/dragonmaus/getopt)
-- [Repository mirror (Darcs Hub)](https://hub.darcs.net/dragonmaus/getopt.rs)
-- [Repository mirror (GitLab)](https://gitlab.com/dragonmaus/getopt.rs)
-- [Repository mirror (GitHub)](https://github.com/dragonmaus/getopt.rs)
+- [Repository](https://git.dragonma.us/dragonmaus/getopt.rs) ([GitLab](https://gitlab.com/dragonmaus/getopt.rs), [GitHub](https://github.com/dragonmaus/getopt.rs))
