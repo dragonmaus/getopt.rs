@@ -104,3 +104,15 @@ fn multiple() -> Result<(), String> {
 
     Ok(())
 }
+
+#[test]
+fn continue_after_error() {
+    let args: Vec<String> = vec!["x", "-z", "-abc"]
+        .into_iter()
+        .map(String::from)
+        .collect();
+    let optstring = "ab:d:e".to_string();
+    for _opt in Parser::new(&args, &optstring) {
+        // do nothing, should not panic
+    }
+}

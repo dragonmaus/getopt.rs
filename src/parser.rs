@@ -278,7 +278,12 @@ impl Iterator for Parser {
         self.point += 1;
 
         match self.opts.get(&opt) {
-            None => Some(Err(Error::new(ErrorKind::UnknownOption, opt))),
+            None => {
+                if self.point >= self.args[self.index].len() {
+                    self.incr_index();
+                }
+                Some(Err(Error::new(ErrorKind::UnknownOption, opt)))
+            }
             Some(false) => {
                 if self.point >= self.args[self.index].len() {
                     self.incr_index();
