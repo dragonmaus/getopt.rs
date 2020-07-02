@@ -38,6 +38,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 ```
 
 ## Links:
-- Crate: [Lib.rs](https://lib.rs/crates/getopt) / [Crates.io](https://crates.io/crates/getopt)
-- Source: [Gitea](https://git.dragonma.us/dragonmaus/getopt.rs) / [GitLab](https://gitlab.com/dragonmaus/getopt.rs) / [GitHub](https://github.com/dragonmaus/getopt.rs)
+- Crate: [Crates.io](https://crates.io/crates/getopt) / [Lib.rs](https://lib.rs/crates/getopt)
+- Source: [Gitea](https://git.dragonma.us/dragonmaus/getopt.rs) / [GitHub](https://github.com/dragonmaus/getopt.rs)
 - Documentation: [Docs.rs](https://docs.rs/getopt/)
