@@ -1,6 +1,6 @@
 [package]
 name = "getopt"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["David Wildasin <dragonmaus@posteo.net>"]
 edition = "2018"
 description = "A minimal, (essentially) POSIX-compliant option parser"

@@ -1,9 +1,10 @@
-use std::{env, io, path::Path, process};
+use std::{io, process};
 
 use getopt::prelude::*;
 
-mod my {
-    use std::io;
+// Command-line program boilerplate
+mod program {
+    use std::{env, io, path::Path};
 
     pub use self::Result::*;
 
@@ -11,6 +12,22 @@ mod my {
         Ok(T),
         External(io::Error),
         Internal(io::Error),
+    }
+
+    pub fn args() -> Vec<String> {
+        env::args_os()
+            .map(|a| a.to_string_lossy().into_owned())
+            .collect()
+    }
+
+    pub fn name(default: &str) -> String {
+        match env::args_os().next() {
+            None => default.to_string(),
+            Some(os_string) => match Path::new(&os_string).file_name() {
+                None => default.to_string(),
+                Some(os_str) => os_str.to_string_lossy().into_owned(),
+            },
+        }
     }
 }
 
@@ -23,12 +40,12 @@ enum ShellKind {
 
 fn main() -> ! {
     process::exit(match program() {
-        my::Ok(code) => code,
-        my::External(error) => {
+        program::Ok(code) => code,
+        program::External(error) => {
             eprintln!("{}", error);
             1
         }
-        my::Internal(error) => {
+        program::Internal(error) => {
             eprintln!("{}", error);
             2
         }
@@ -36,18 +53,18 @@ fn main() -> ! {
 }
 
 #[rustfmt::skip]
-fn print_usage(program: &str) -> my::Result<i32> {
+fn print_usage(program: &str) -> program::Result<i32> {
     println!("Usage: {} [-h] [-n name] [-s shell] optstring [args ...]", program);
     println!("  -h        display this help");
     println!("  -n name   report errors as 'name' (default '{}')", program);
     println!("  -s shell  use quoting conventions for shell (default 'sh')");
 
-    my::Ok(0)
+    program::Ok(0)
 }
 
-fn program() -> my::Result<i32> {
-    let program = program_name("getopt");
-    let args = program_args();
+fn program() -> program::Result<i32> {
+    let program = program::name("getopt");
+    let args = program::args();
     let mut parsed: Vec<String> = Vec::new();
 
     let mut name = program.clone();
@@ -59,7 +76,7 @@ fn program() -> my::Result<i32> {
         match opts.next() {
             None => break,
             Some(Err(error)) => {
-                return my::Internal(io::Error::new(
+                return program::Internal(io::Error::new(
                     io::ErrorKind::InvalidInput,
                     format!("{}: {}", program, error),
                 ));
@@ -67,7 +84,7 @@ fn program() -> my::Result<i32> {
             Some(Ok(opt)) => match opt {
                 Opt('h', None) => {
                     print_usage(&program);
-                    return my::Ok(0);
+                    return program::Ok(0);
                 }
                 Opt('n', Some(arg)) => name = arg,
                 Opt('s', Some(arg)) => {
@@ -79,7 +96,7 @@ fn program() -> my::Result<i32> {
                         "fish" => ShellKind::Fish,
                         "plan9" | "rc" => ShellKind::Rc,
                         x => {
-                            return my::Internal(io::Error::new(
+                            return program::Internal(io::Error::new(
                                 io::ErrorKind::InvalidInput,
                                 format!("{}: unknown shell type: {}", program, x),
                             ));
@@ -93,7 +110,7 @@ fn program() -> my::Result<i32> {
 
     let optstring = match args.get(opts.index()) {
         None => {
-            return my::Internal(io::Error::new(
+            return program::Internal(io::Error::new(
                 io::ErrorKind::InvalidInput,
                 format!("{}: missing optstring argument", program),
             ));
@@ -109,7 +126,7 @@ fn program() -> my::Result<i32> {
         match opts.next() {
             None => break,
             Some(Err(error)) => {
-                return my::External(io::Error::new(
+                return program::External(io::Error::new(
                     io::ErrorKind::InvalidInput,
                     format!("{}: {}", name, error),
                 ));
@@ -132,7 +149,7 @@ fn program() -> my::Result<i32> {
 
     println!("{}", parsed.join(" "));
 
-    my::Ok(0)
+    program::Ok(0)
 }
 
 fn quote_for_shell(string: &str, kind: &ShellKind) -> String {
@@ -212,21 +229,5 @@ fn quote_for_shell(string: &str, kind: &ShellKind) -> String {
             new_string.push(q);
             new_string
         }
-    }
-}
-
-fn program_args() -> Vec<String> {
-    env::args_os()
-        .map(|a| a.to_string_lossy().into_owned())
-        .collect()
-}
-
-fn program_name(default: &str) -> String {
-    match env::args_os().next() {
-        None => default.to_string(),
-        Some(os_string) => match Path::new(&os_string).file_name() {
-            None => default.to_string(),
-            Some(os_str) => os_str.to_string_lossy().into_owned(),
-        },
     }
 }
