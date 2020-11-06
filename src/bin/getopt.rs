@@ -23,7 +23,7 @@ mod program {
     pub fn name(default: &str) -> String {
         match env::args_os().next() {
             None => default.to_string(),
-            Some(os_string) => match Path::new(&os_string).file_name() {
+            Some(os_string) => match Path::new(&os_string).file_stem() {
                 None => default.to_string(),
                 Some(os_str) => os_str.to_string_lossy().into_owned(),
             },
