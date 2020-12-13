@@ -53,13 +53,12 @@ fn main() -> ! {
 }
 
 #[rustfmt::skip]
-fn print_usage(program: &str) -> program::Result<i32> {
+fn print_usage(program: &str) {
     println!("Usage: {} [-h] [-n name] [-s shell] optstring [args ...]", program);
-    println!("  -h        display this help");
     println!("  -n name   report errors as 'name' (default '{}')", program);
     println!("  -s shell  use quoting conventions for shell (default 'sh')");
-
-    program::Ok(0)
+    println!();
+    println!("  -h        display this help");
 }
 
 fn program() -> program::Result<i32> {
@@ -82,10 +81,6 @@ fn program() -> program::Result<i32> {
                 ));
             }
             Some(Ok(opt)) => match opt {
-                Opt('h', None) => {
-                    print_usage(&program);
-                    return program::Ok(0);
-                }
                 Opt('n', Some(arg)) => name = arg,
                 Opt('s', Some(arg)) => {
                     shell = match arg.to_lowercase().trim() {
@@ -102,6 +97,10 @@ fn program() -> program::Result<i32> {
                             ));
                         }
                     }
+                }
+                Opt('h', None) => {
+                    print_usage(&program);
+                    return program::Ok(0);
                 }
                 _ => unreachable!(),
             },
