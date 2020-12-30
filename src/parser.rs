@@ -13,14 +13,14 @@ use crate::{error::Error, errorkind::ErrorKind, opt::Opt, result::Result};
 /// ## Simplified usage:
 /// ```
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-/// use getopt::prelude::*;
+/// use getopt::Opt;
 ///
 /// // args = ["program", "-abc", "foo"];
 /// # let args: Vec<String> = vec!["program", "-abc", "foo"]
 /// #     .into_iter()
 /// #     .map(String::from)
 /// #     .collect();
-/// let mut opts = Parser::new(&args, "ab:c");
+/// let mut opts = getopt::Parser::new(&args, "ab:c");
 ///
 /// assert_eq!(Some(Opt('a', None)), opts.next().transpose()?);
 /// assert_eq!(1, opts.index());
@@ -36,14 +36,14 @@ use crate::{error::Error, errorkind::ErrorKind, opt::Opt, result::Result};
 /// ## A more idiomatic example:
 /// ```
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-/// use getopt::prelude::*;
+/// use getopt::Opt;
 ///
 /// // args = ["program", "-abc", "-d", "foo", "-e", "bar"];
 /// # let mut args: Vec<String> = vec!["program", "-abc", "-d", "foo", "-e", "bar"]
 /// #     .into_iter()
 /// #     .map(String::from)
 /// #     .collect();
-/// let mut opts = Parser::new(&args, "ab:cd:e");
+/// let mut opts = getopt::Parser::new(&args, "ab:cd:e");
 ///
 /// let mut a_flag = false;
 /// let mut b_flag = String::new();

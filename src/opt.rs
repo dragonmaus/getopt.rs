@@ -10,7 +10,7 @@ use std::fmt;
 ///
 /// ```
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-/// use getopt::prelude::*;
+/// use getopt::Opt;
 ///
 /// // args = ["program", "-abc", "foo"];
 /// # let args: Vec<String> = vec!["program", "-abc", "foo"]
@@ -18,7 +18,7 @@ use std::fmt;
 /// #     .map(String::from)
 /// #     .collect();
 /// let optstring = "ab:c";
-/// let mut opts = Parser::new(&args, optstring);
+/// let mut opts = getopt::Parser::new(&args, optstring);
 ///
 /// assert_eq!(Opt('a', None), opts.next().transpose()?.unwrap());
 /// assert_eq!(Opt('b', Some("c".to_string())), opts.next().transpose()?.unwrap());

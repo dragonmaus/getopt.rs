@@ -10,11 +10,11 @@ at the first non-option argument.
 ```rust
 #![allow(unused_assignments, unused_variables)]
 
-use getopt::prelude::*;
+use getopt::Opt;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut args: Vec<String> = std::env::args().collect();
-    let mut opts = Parser::new(&args, "ab:");
+    let mut opts = getopt::Parser::new(&args, "ab:");
 
     let mut a_flag = false;
     let mut b_flag = String::new();

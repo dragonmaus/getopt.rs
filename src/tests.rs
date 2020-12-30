@@ -1,4 +1,4 @@
-use crate::prelude::*;
+use crate::{Opt, Parser};
 
 macro_rules! basic_test {
     ($name:ident, $expect:expr, $next:expr, [$($arg:expr),+], $optstr:expr) => (

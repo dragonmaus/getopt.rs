@@ -1,6 +1,6 @@
 use std::{io, process};
 
-use getopt::prelude::*;
+use getopt::Opt;
 
 // Command-line program boilerplate
 mod program {
@@ -69,7 +69,7 @@ fn program(name: &str) -> program::Result {
     let mut shell = ShellKind::Bourne;
 
     // gather our own options
-    let mut opts = Parser::new(&args, "hn:s:");
+    let mut opts = getopt::Parser::new(&args, "hn:s:");
     loop {
         match opts.next() {
             None => break,
@@ -118,7 +118,7 @@ fn program(name: &str) -> program::Result {
     let index = opts.index() + 1;
 
     // parse the other options
-    let mut opts = Parser::new(&args, optstring);
+    let mut opts = getopt::Parser::new(&args, optstring);
     opts.set_index(index);
     loop {
         match opts.next() {

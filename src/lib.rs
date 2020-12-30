@@ -1,12 +1,10 @@
-#![doc(html_root_url = "https://docs.rs/getopt/1.0.3")]
+#![doc(html_root_url = "https://docs.rs/getopt/1.1.0")]
 
 //! # getopt
 //!
 //! `getopt` provides a minimal, (essentially) POSIX-compliant option parser.
 
 pub use crate::{error::Error, errorkind::ErrorKind, opt::Opt, parser::Parser, result::Result};
-
-pub mod prelude;
 
 mod error;
 mod errorkind;
