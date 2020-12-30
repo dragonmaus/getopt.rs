@@ -8,8 +8,8 @@ mod program {
 
     pub use self::Result::*;
 
-    pub enum Result<T> {
-        Ok(T),
+    pub enum Result {
+        Ok(i32),
         External(io::Error),
         Internal(io::Error),
     }
@@ -22,9 +22,9 @@ mod program {
 
     pub fn name(default: &str) -> String {
         match env::args_os().next() {
-            None => default.to_string(),
+            None => String::from(default),
             Some(os_string) => match Path::new(&os_string).file_stem() {
-                None => default.to_string(),
+                None => String::from(default),
                 Some(os_str) => os_str.to_string_lossy().into_owned(),
             },
         }
@@ -39,7 +39,7 @@ enum ShellKind {
 }
 
 fn main() -> ! {
-    process::exit(match program() {
+    process::exit(match program(&program::name("getopt")) {
         program::Ok(code) => code,
         program::External(error) => {
             eprintln!("{}", error);
@@ -53,20 +53,19 @@ fn main() -> ! {
 }
 
 #[rustfmt::skip]
-fn print_usage(program: &str) {
-    println!("Usage: {} [-h] [-n name] [-s shell] optstring [args ...]", program);
-    println!("  -n name   report errors as 'name' (default '{}')", program);
+fn print_usage(program_name: &str) {
+    println!("Usage: {} [-h] [-n name] [-s shell] optstring [args ...]", program_name);
+    println!("  -n name   report errors as 'name' (default '{}')", program_name);
     println!("  -s shell  use quoting conventions for shell (default 'sh')");
     println!();
     println!("  -h        display this help");
 }
 
-fn program() -> program::Result<i32> {
-    let program = program::name("getopt");
+fn program(name: &str) -> program::Result {
     let args = program::args();
     let mut parsed: Vec<String> = Vec::new();
 
-    let mut name = program.clone();
+    let mut child_name = name.to_string();
     let mut shell = ShellKind::Bourne;
 
     // gather our own options
@@ -77,11 +76,11 @@ fn program() -> program::Result<i32> {
             Some(Err(error)) => {
                 return program::Internal(io::Error::new(
                     io::ErrorKind::InvalidInput,
-                    format!("{}: {}", program, error),
+                    format!("{}: {}", name, error),
                 ));
             }
             Some(Ok(opt)) => match opt {
-                Opt('n', Some(arg)) => name = arg,
+                Opt('n', Some(arg)) => child_name = arg,
                 Opt('s', Some(arg)) => {
                     shell = match arg.to_lowercase().trim() {
                         "ash" | "bash" | "dash" | "ksh" | "mksh" | "sh" | "zsh" => {
@@ -93,13 +92,13 @@ fn program() -> program::Result<i32> {
                         x => {
                             return program::Internal(io::Error::new(
                                 io::ErrorKind::InvalidInput,
-                                format!("{}: unknown shell type: {}", program, x),
+                                format!("{}: unknown shell type: {}", name, x),
                             ));
                         }
                     }
                 }
                 Opt('h', None) => {
-                    print_usage(&program);
+                    print_usage(&name);
                     return program::Ok(0);
                 }
                 _ => unreachable!(),
@@ -111,7 +110,7 @@ fn program() -> program::Result<i32> {
         None => {
             return program::Internal(io::Error::new(
                 io::ErrorKind::InvalidInput,
-                format!("{}: missing optstring argument", program),
+                format!("{}: missing optstring argument", name),
             ));
         }
         Some(s) => s,
@@ -127,7 +126,7 @@ fn program() -> program::Result<i32> {
             Some(Err(error)) => {
                 return program::External(io::Error::new(
                     io::ErrorKind::InvalidInput,
-                    format!("{}: {}", name, error),
+                    format!("{}: {}", child_name, error),
                 ));
             }
             Some(Ok(Opt(opt, arg))) => {
