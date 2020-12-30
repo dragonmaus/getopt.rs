@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/getopt/0.4.2")]
+#![doc(html_root_url = "https://docs.rs/getopt/1.0.3")]
 
 //! # getopt
 //!
