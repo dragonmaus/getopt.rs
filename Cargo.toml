@@ -1,11 +1,11 @@
 [package]
 name = "getopt"
-version = "1.1.1"
+version = "1.1.2"
 authors = ["David Wildasin <dragonmaus@posteo.net>"]
 edition = "2021"
 description = "A minimal, (essentially) POSIX-compliant option parser"
 readme = "README.md"
-repository = "https://git.dragonma.us/dragonmaus/getopt.rs"
+repository = "https://git.dragonma.us/rust/getopt"
 license = "BSD-3-Clause-Clear"
 categories = ["command-line-interface", "command-line-utilities"]
 publish = true
