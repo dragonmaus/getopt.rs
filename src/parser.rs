@@ -283,14 +283,14 @@ impl Iterator for Parser {
                     self.incr_index();
                 }
                 Some(Err(Error::new(ErrorKind::UnknownOption, opt)))
-            }
+            },
             Some(false) => {
                 if self.point >= self.args[self.index].len() {
                     self.incr_index();
                 }
 
                 Some(Ok(Opt(opt, None)))
-            }
+            },
             Some(true) => {
                 let arg: String = if self.point >= self.args[self.index].len() {
                     self.incr_index();
@@ -309,7 +309,7 @@ impl Iterator for Parser {
                 self.incr_index();
 
                 Some(Ok(Opt(opt, Some(arg))))
-            }
+            },
         }
     }
 }

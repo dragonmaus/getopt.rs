@@ -91,7 +91,7 @@ fn multiple() -> Result<(), String> {
                     if actual != expect {
                         return Err(format!("expected {:?}; got {:?}", expect, actual));
                     }
-                }
+                },
             };
         };
     }

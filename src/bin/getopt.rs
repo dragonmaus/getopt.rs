@@ -44,11 +44,11 @@ fn main() -> ! {
         program::External(error) => {
             eprintln!("{}", error);
             1
-        }
+        },
         program::Internal(error) => {
             eprintln!("{}", error);
             2
-        }
+        },
     });
 }
 
@@ -78,14 +78,14 @@ fn program(name: &str) -> program::Result {
                     io::ErrorKind::InvalidInput,
                     format!("{}: {}", name, error),
                 ));
-            }
+            },
             Some(Ok(opt)) => match opt {
                 Opt('n', Some(arg)) => child_name = arg,
                 Opt('s', Some(arg)) => {
                     shell = match arg.to_lowercase().trim() {
                         "ash" | "bash" | "dash" | "ksh" | "mksh" | "sh" | "zsh" => {
                             ShellKind::Bourne
-                        }
+                        },
                         "csh" | "tcsh" => ShellKind::C,
                         "fish" => ShellKind::Fish,
                         "plan9" | "rc" => ShellKind::Rc,
@@ -94,13 +94,13 @@ fn program(name: &str) -> program::Result {
                                 io::ErrorKind::InvalidInput,
                                 format!("{}: unknown shell type: {}", name, x),
                             ));
-                        }
+                        },
                     }
-                }
+                },
                 Opt('h', None) => {
                     print_usage(name);
                     return program::Ok(0);
-                }
+                },
                 _ => unreachable!(),
             },
         }
@@ -112,7 +112,7 @@ fn program(name: &str) -> program::Result {
                 io::ErrorKind::InvalidInput,
                 format!("{}: missing optstring argument", name),
             ));
-        }
+        },
         Some(s) => s,
     };
     let index = opts.index() + 1;
@@ -128,14 +128,14 @@ fn program(name: &str) -> program::Result {
                     io::ErrorKind::InvalidInput,
                     format!("{}: {}", child_name, error),
                 ));
-            }
+            },
             Some(Ok(Opt(opt, arg))) => {
                 parsed.push(format!("-{}", opt));
                 match arg {
                     None => (),
                     Some(s) => parsed.push(quote_for_shell(&s, &shell)),
                 }
-            }
+            },
         }
     }
 
@@ -165,13 +165,13 @@ fn quote_for_shell(string: &str, kind: &ShellKind) -> String {
                         new_string.push(e);
                         new_string.push(c);
                         new_string.push(q);
-                    }
+                    },
                     _ => new_string.push(c),
                 }
             }
             new_string.push(q);
             new_string
-        }
+        },
 
         ShellKind::C => {
             let e = '\\'; // escape char
@@ -185,13 +185,13 @@ fn quote_for_shell(string: &str, kind: &ShellKind) -> String {
                         new_string.push(e);
                         new_string.push(c);
                         new_string.push(q);
-                    }
+                    },
                     _ => new_string.push(c),
                 }
             }
             new_string.push(q);
             new_string
-        }
+        },
 
         ShellKind::Fish => {
             let e = '\\'; // escape char
@@ -203,13 +203,13 @@ fn quote_for_shell(string: &str, kind: &ShellKind) -> String {
                     '\'' | '\\' => {
                         new_string.push(e);
                         new_string.push(c);
-                    }
+                    },
                     _ => new_string.push(c),
                 }
             }
             new_string.push(q);
             new_string
-        }
+        },
 
         ShellKind::Rc => {
             let q = '\''; // quote char
@@ -220,12 +220,12 @@ fn quote_for_shell(string: &str, kind: &ShellKind) -> String {
                     '\'' => {
                         new_string.push(q);
                         new_string.push(c);
-                    }
+                    },
                     _ => new_string.push(c),
                 }
             }
             new_string.push(q);
             new_string
-        }
+        },
     }
 }
