@@ -1,3 +1,5 @@
+extern crate getopt;
+
 use std::{io, process};
 
 use getopt::Opt;

@@ -1,8 +1,8 @@
 [package]
 name = "getopt"
-version = "1.1.4"
+version = "1.1.5"
 authors = ["David Wildasin <dragonmaus@posteo.net>"]
-edition = "2021"
+rust-version = "1.30.0"
 description = "A minimal, (essentially) POSIX-compliant option parser"
 readme = "README.md"
 repository = "https://git.dragonma.us/rust/getopt"
