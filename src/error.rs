@@ -16,7 +16,7 @@ impl Error {
     }
 
     /// Returns the [`ErrorKind`](enum.ErrorKind.html) for this error.
-    pub fn kind(self) -> ErrorKind {
+    pub fn kind(&self) -> ErrorKind {
         self.kind
     }
 }
